@@ -24,23 +24,24 @@
     };
 
 
-    function onEachFeature(feature, layer) {
-     // does this feature have a property named name?
+    // function onEachFeature(feature, layer) {
+    //  // does this feature have a property named name?
 
-        if (feature.properties && feature.properties.name) {
-            counter++;
-            layer.bindPopup('Siirry yhdistyspaikkaan: <button type="button" class="btn btn-sm btn-primary btn-select-site">' + feature.properties.name +'</button>', {
-                maxWidth : 'auto'
-                });
-            }            
+    //     if (feature.properties && feature.properties.name) {
+    //         counter++;
+    //         layer.bindPopup('Siirry yhdistyspaikkaan: <button type="button" class="btn btn-sm btn-primary btn-select-site">' + feature.properties.name +'</button>', {
+    //             maxWidth : 'auto'
+    //             });
+    //         }            
         
-    }
+    // }
 
 
     // lintutornit_lly_kaikki_2017_wgs84.geojson
     var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, { pointToLayer : function(geoJsonPoint, latlng) {
     return L.circleMarker(latlng, birdTowerMarkerOptions);
-	}, onEachFeature: onEachFeature});
+	   }     
+        });
 
     //
 
@@ -62,7 +63,7 @@
         zoom: 6,
         minZoom: 3,
         maxZoom: 14,
-        layers: [taustakartta, sites],    
+        layers: [taustakartta, birdTowers],    
         maxBounds: [[58.2133,16.16359],
                     [71.2133,36.16359]],
         //test canvas renderer,
@@ -84,8 +85,8 @@
         	// "Uusi Taustakartta": taustakartta_uusi
     	};
 
-    	const siteLayers = {
-    		"Yhdistyspaikat <span id='common-sites-control'></span>" : sites,
+    	const birdTowerLayer = {
+    		"Lintutornit <span id='lintutornit'></span>" : birdTowers,
     	};
 
         map = new L.map('map_div', initMap);
