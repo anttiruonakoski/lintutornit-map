@@ -8,14 +8,28 @@
       
 
       #map_div {
-                width: 655px;
+                width: 654px;
                 height: 860px;
                 border: 1px solid black;
                 margin: 0px;
                 padding: 0px;
                 }
 
-      body.#lintutornit-map {
+      #lintutornit-map {
                 margin: 0px;
                 padding: 0px;
                 }
+
+      .btn-zoom-tower {
+                background: #00A1E0;
+                border: 0;
+                color: #FFFFFF;
+                min-width: 24%;
+                border-radius: 0px;
+                border-radius: 0px;
+                font-family: inherit;
+                margin-right: 0%;
+                margin-bottom: 7px;
+                margin-top: 14px;
+                padding: 8px 10px;
+}            
