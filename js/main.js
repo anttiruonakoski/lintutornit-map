@@ -37,6 +37,10 @@
             // siteLayerGroups.societySitesGroup[org].addLayer(layer); 
             // hashMaps[org].set(feature.properties.id, layer._leaflet_id);
 
+    function zoomToTower(LatLng,zoomLvl) {
+        map.flyTo(LatLng,zoomLvl);
+    }
+
 
     // lintutornit_lly_kaikki_2017_wgs84.geojson
     var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, { pointToLayer : function(geoJsonPoint, latlng) {
@@ -100,6 +104,34 @@
         L.control.layers(baseMaps).addTo(map);
 
         birdTowers.addTo(map);
+
+        map.on('popupopen', function(e) {
+            $(".btn-zoom-tower").click(function() {
+                var zoomLatLng = e.popup.getLatLng();
+                console.log(zoomLatLng);
+
+                // var popupSourceFeature = e.popup._source;
+                // var coords = getCoords(EPSG3067.project(popupSourceFeature._latlng).toString());
+
+
+                        //should really fix this, no logic here
+                        // map.removeLayer(sites);
+                        
+                        zoomToTower(zoomLatLng,13);
+
+                        // map.once('moveend', function() {
+                        //     map.addLayer(sites);
+                        //     map.addLayer(ownsites);
+                        // });  
+
+                map.closePopup();
+            });
+        });
+
+        // $("#btn-zoom-tower").click(function(){
+        //         console.log('zomiaian');
+        //         zoomToTower(12);
+        //     });
 
         //assign variable only after json request complete, otherwise empty result
 
