@@ -12,7 +12,8 @@
     const ortokuva = L.tileLayer.mml("Ortokuva_3067");
 
     ortokuva.options.minZoom = 8;
-    maastokartta.setOpacity(0.8);  
+
+    maastokartta.setOpacity(0.65);  
     // const taustakartta_uusi = L.tileLayer.mml("Taustakartta_3067");
 
     const birdTowerMarkerOptions = {
@@ -24,24 +25,27 @@
     };
 
 
-    // function onEachFeature(feature, layer) {
-    //  // does this feature have a property named name?
+    function onEachFeature(feature, layer) {
 
-    //     if (feature.properties && feature.properties.name) {
-    //         counter++;
-    //         layer.bindPopup('Siirry yhdistyspaikkaan: <button type="button" class="btn btn-sm btn-primary btn-select-site">' + feature.properties.name +'</button>', {
-    //             maxWidth : 'auto'
-    //             });
-    //         }            
-        
-    // }
+        if (feature.properties && feature.properties.name) {
+            layer.bindPopup('<b>' + feature.properties.name +'</b><br/><b>' + feature.properties.kunta +'</b><br/><a href="https://www.lly.fi/lintutornit#torni-' + feature.properties.id + '">Tornin esittely</a>'
+            + '<button type="button" class="btn-zoom-tower">Lähennä</button>', {
+                maxWidth : 'auto'
+                });
+            }
+    }                    
+            // siteLayerGroups.societySitesGroup[org].addLayer(layer); 
+            // hashMaps[org].set(feature.properties.id, layer._leaflet_id);
 
 
     // lintutornit_lly_kaikki_2017_wgs84.geojson
     var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, { pointToLayer : function(geoJsonPoint, latlng) {
-    return L.circleMarker(latlng, birdTowerMarkerOptions);
+        return L.marker(latlng);
+
+   
 	   }     
-        });
+        , onEachFeature: onEachFeature});
+     // return L.circleMarker(latlng, birdTowerMarkerOptions);
 
     //
 
@@ -59,13 +63,13 @@
 
   	const initMap = {
         crs: L.TileLayer.MML.get3067Proj(),
-        center: [66.5, 25.3],
-        zoom: 6,
+        center: [67.55, 25.7],
+        zoom: 4,
         minZoom: 3,
         maxZoom: 14,
-        layers: [taustakartta, birdTowers],    
-        maxBounds: [[58.2133,16.16359],
-                    [71.2133,36.16359]],
+        layers: [maastokartta, birdTowers],    
+        maxBounds: [[65.33,19.86],
+                    [70.16,30.87]],
         //test canvas renderer,
         renderer: L.canvas(),
         prefercanvas: true                   
@@ -89,10 +93,13 @@
     		"Lintutornit <span id='lintutornit'></span>" : birdTowers,
     	};
 
-        map = new L.map('map_div', initMap);
 
- 
-        // sites.addTo(map);
+        map = new L.map('map_div', initMap);
+        map.attributionControl.addAttribution('| Lintutornit © LLY');
+
+        L.control.layers(baseMaps).addTo(map);
+
+        birdTowers.addTo(map);
 
         //assign variable only after json request complete, otherwise empty result
 
@@ -103,4 +110,4 @@
         // helper functions
 
 
-    }
+    };

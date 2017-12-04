@@ -1,0 +1,21 @@
+/*  lintutornit-map
+
+*/
+      @font-face {
+                  font-family: 'Roboto', sans-serif;
+                  }
+
+      
+
+      #map_div {
+                width: 655px;
+                height: 860px;
+                border: 1px solid black;
+                margin: 0px;
+                padding: 0px;
+                }
+
+      body.#lintutornit-map {
+                margin: 0px;
+                padding: 0px;
+                }
