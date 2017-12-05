@@ -18,6 +18,7 @@
   "homepage": "https://github.com/anttiruonakoski/lintutornit-map#readme",
   "dependencies": {
     "leaflet-ajax": "^2.1.0",
+    "leaflet-easybutton": "^2.2.4",
     "leaflet-mml-layers": "^2.0.1",
     "list.js": "^1.5.0",
     "proj4leaflet": "^1.0.2"

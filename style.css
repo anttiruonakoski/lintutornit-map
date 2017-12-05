@@ -20,6 +20,10 @@
                 padding: 0px;
                 }
 
+      button {
+                all: unset;
+      }           
+
       .btn-zoom-tower {
                 background: #00A1E0;
                 border: 0;

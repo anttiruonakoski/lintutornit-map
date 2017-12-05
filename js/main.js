@@ -34,44 +34,38 @@
                 });
             }
     }                    
-            // siteLayerGroups.societySitesGroup[org].addLayer(layer); 
-            // hashMaps[org].set(feature.properties.id, layer._leaflet_id);
 
     function zoomToTower(LatLng,zoomLvl) {
         map.flyTo(LatLng,zoomLvl);
     }
 
-
-    // lintutornit_lly_kaikki_2017_wgs84.geojson
     var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, { pointToLayer : function(geoJsonPoint, latlng) {
-        return L.marker(latlng);
+        return L.marker(latlng);  
+	   }   
+       , onEachFeature: onEachFeature});
 
-   
-	   }     
-        , onEachFeature: onEachFeature});
-     // return L.circleMarker(latlng, birdTowerMarkerOptions);
-
-    //
-
-        birdTowers.on('data:loaded', function () {
-            console.log('tasolla kohteita: ', counter);
-            counter = 0;
-            var sitesAsJSON = sites.toGeoJSON();
-            assocSites[org] = sites; 
-            siteLists[org] = tableFeatures(sitesAsJSON,"societySites"); 
+    birdTowers.on('data:loaded', function () {
+        console.log('tasolla kohteita: ', counter);
+        counter = 0;
+        var sitesAsJSON = sites.toGeoJSON();
+        assocSites[org] = sites; 
+        siteLists[org] = tableFeatures(sitesAsJSON,"societySites"); 
 
         });  
-    // 
 
     const EPSG3067 = L.TileLayer.MML.get3067Proj();
 
+    const mapCenter = [67.55, 25.7];
+    const mapZoom = 4;
+    const defaultLayers = [maastokartta, birdTowers];
+
   	const initMap = {
         crs: L.TileLayer.MML.get3067Proj(),
-        center: [67.55, 25.7],
-        zoom: 4,
+        center: mapCenter,
+        zoom: mapZoom,
         minZoom: 3,
         maxZoom: 14,
-        layers: [maastokartta, birdTowers],    
+        layers: defaultLayers,    
         maxBounds: [[65.33,19.86],
                     [70.16,30.87]],
         //test canvas renderer,
@@ -82,7 +76,6 @@
 	// const obsIcon = L.AwesomeMarkers.icon({
 	// 	icon: 'binoculars', prefix: 'fa', markerColor: 'cadetblue'
 	// });
-
 				
 	function init() {
 
@@ -90,7 +83,6 @@
     		"Taustakartta" : taustakartta,
     		"Maastokartta" : maastokartta,
         	"Ilmakuva" : ortokuva
-        	// "Uusi Taustakartta": taustakartta_uusi
     	};
 
     	const birdTowerLayer = {
@@ -99,9 +91,32 @@
 
 
         map = new L.map('map_div', initMap);
-        map.attributionControl.addAttribution('| Lintutornit © LLY');
+        map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit ');
 
         L.control.layers(baseMaps).addTo(map);
+
+        // L.easyButton('fa-home', function(btn, map){
+        //     map.setView(mapCenter, mapZoom);
+        // }).addTo(map);
+
+        var mapResetButton = L.easyButton({
+            states: [{
+                    stateName: 'static',        // name the state
+                    icon:      'fa-home',               // and define its properties
+                    title:     'Palauta kartta alkunäkymään',      // like its title
+                    onClick: function(btn, map) {       // and its callback
+                        map.setView(mapCenter, mapZoom);
+                        map.eachLayer(function(layer){
+                            map.removeLayer(layer);
+                        });
+
+                        defaultLayers.forEach(function(layer){
+                            layer.addTo(map);
+                        });  
+                    }                         
+                    }]
+        });
+        mapResetButton.addTo(map);
 
         birdTowers.addTo(map);
 
@@ -132,14 +147,5 @@
         //         console.log('zomiaian');
         //         zoomToTower(12);
         //     });
-
-        //assign variable only after json request complete, otherwise empty result
-
-        //for collapsing layer switcher
-
-        // custom controls
-
-        // helper functions
-
 
     };
