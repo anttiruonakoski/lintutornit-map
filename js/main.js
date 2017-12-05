@@ -5,6 +5,12 @@
     
     var birdTowerFile = 'data/lintutornit_lly_kaikki_2017_wgs84.geojson';
 
+    var params = location.href.split('?')[1];
+    data = {};
+    {
+    data.id = Number.parseInt((params.split('=')[1]));
+    }; 
+
     // var societySitesFile = 'data/7500.geojson';
 
   	const taustakartta = L.tileLayer.mml_wmts({ layer: "taustakartta" });
@@ -45,18 +51,22 @@
        , onEachFeature: onEachFeature});
 
     birdTowers.on('data:loaded', function () {
-        console.log('tasolla kohteita: ', counter);
-        counter = 0;
-        var sitesAsJSON = sites.toGeoJSON();
-        assocSites[org] = sites; 
-        siteLists[org] = tableFeatures(sitesAsJSON,"societySites"); 
+        var birdTowersAsJSON = birdTowers.toGeoJSON();
+        //get coordinates by tower-id
 
+        console.log(data.id);
+        // console.log(birdTowersAsJSON);
+        var center = (birdTowersAsJSON.features.find(item => item.properties.id == data.id).geometry.coordinates).reverse();
+        map.setView(center, 10);
+        console.log(center, mapZoom);
+            
         });  
 
     const EPSG3067 = L.TileLayer.MML.get3067Proj();
-
+     
     const mapCenter = [67.55, 25.7];
     const mapZoom = 4;
+
     const defaultLayers = [maastokartta, birdTowers];
 
   	const initMap = {
@@ -89,7 +99,6 @@
     		"Lintutornit <span id='lintutornit'></span>" : birdTowers,
     	};
 
-
         map = new L.map('map_div', initMap);
         map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit ');
 
@@ -102,7 +111,7 @@
         var mapResetButton = L.easyButton({
             states: [{
                     stateName: 'static',        // name the state
-                    icon:      'fa-home',               // and define its properties
+                    icon:      'fa-expand',               // and define its properties
                     title:     'Palauta kartta alkunäkymään',      // like its title
                     onClick: function(btn, map) {       // and its callback
                         map.setView(mapCenter, mapZoom);
