@@ -10,6 +10,7 @@
     if (location.href.includes('?') && location.href.includes('=')) {
          selectedTower.id = Number(location.href.split('=')[1]);
     }
+    console.log(location.href);
 
     // selectedTower.id = location.href.includes('?') ? Number(location.href.split('=')[1]) : null ;
 
@@ -52,18 +53,20 @@
 
     // birdTowers.on('data:loaded', function () {
 
-    function onMapLoad(mapCenter, mapZoom, selectedTower) {  
-        console.log(selectedTower);
+    function onMapLoad(mapCenter, mapZoom, towerId) {  
+        console.log(towerId);
 
-        if (typeof selectedTower !== 'undefined')  {
+        if (selectedTower != 0)  {
                 birdTowersAsJSON = birdTowers.toGeoJSON();
+                console.log(birdTowersAsJSON);
 
-                try {
-                    mapCenter = (birdTowersAsJSON.features.find(item => item.properties.id == selectedTower).geometry.coordinates).reverse();
-                }
-                catch(e) {
-                    console.log('tornin id '+selectedTower+' linkissä mahdollisesti väärin');
-                }
+                // try {
+                    // mapCenter = (birdTowersAsJSON.features.find(item => item.properties.id == towerId).geometry.coordinates).reverse();
+                    // console.log(mapCenter);
+                // }
+                // catch(e) {
+                //     console.log('tornin id '+selectedTower+' linkissä mahdollisesti väärin');
+                // }
                 
                 mapZoom = 10;
                 // console.log('id on' ,mapCenter, mapZoom); 
@@ -125,8 +128,6 @@
 
         map = new L.map('map_div', initMap);
 
-        map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id)); 
-
         map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit ');
 
         L.control.layers(baseMaps).addTo(map);
@@ -155,6 +156,8 @@
         mapResetButton.addTo(map);
 
         birdTowers.addTo(map);
+
+        map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id)); 
 
         map.on('popupopen', function(e) {
             $(".btn-zoom-tower").click(function() {
