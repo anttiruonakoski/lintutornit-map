@@ -36,11 +36,16 @@
     function onEachFeature(feature, layer) {
 
         if (feature.properties && feature.properties.name) {
-            layer.bindPopup('<b>' + feature.properties.name +'</b><br/><b>' + feature.properties.kunta +'</b><br/><a href="https://www.lly.fi/lintutornit#torni-' + feature.properties.id + '" target="_top">Tornin esittely</a>'+ '<button type="button" id="searchsubmit" class="btn-zoom-tower">Lähennä</button>', {
+            layer.bindPopup('<b>' + feature.properties.name +'</b><br/><b>' + feature.properties.kunta +'</b><br/><a href="https://www.lly.fi/lintutornit#torni-' + 
+                feature.properties.id + '" target="_top">Tornin esittely</a>'+ '<button type="button" id="searchsubmit" class="btn-zoom-tower">Lähennä</button>', {
                 maxWidth : 'auto'
+                })
+            layer.bindTooltip (feature.properties.name ,{
+                permanent: false,
+                direction: 'auto',
                 });
-            }
-    }                    
+    }
+    }                   
 
     function zoomToTower(LatLng,zoomLvl) {
         map.flyTo(LatLng,zoomLvl);
@@ -77,7 +82,7 @@
     function onMapLoad(mapCenter, mapZoom, selectedTower, birdTowers) {  
         console.log(selectedTower);
 
-        if (typeof selectedTower !== 'undefined')  {
+        if (typeof selectedTower !== 'undefined' && selectedTower != 0)  {
                 birdTowersAsJSON = birdTowers.toGeoJSON();
 
                 try {
@@ -89,7 +94,10 @@
                 
                 mapZoom = 10;
                 // console.log('id on' ,mapCenter, mapZoom); 
-                map.setView(mapCenter, mapZoom); 
+                map.setView(mapCenter, mapZoom);
+                //fix
+                // birdTowers.toggleTooltip();
+
         }
         else {
             // map.setView(mapCenter, mapZoom);
@@ -182,7 +190,8 @@
             then(function (birdTowers) {
             console.log('meeme');
             birdTowers.addTo(map);
-            map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id, birdTowers)); 
+            map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id, birdTowers));
+            defaultLayers.push(birdTowers); 
         });    
 
 
