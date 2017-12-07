@@ -46,13 +46,35 @@
         map.flyTo(LatLng,zoomLvl);
     }
 
-    var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, { pointToLayer : function(geoJsonPoint, latlng) {
-        return L.marker(latlng);  
-	   }, onEachFeature: onEachFeature});
+    function getBirdTowers (birdTowerFile) {
+        return new Promise(function (resolve, reject) {
 
-    // birdTowers.on('data:loaded', function () {
+            var bd = new L.GeoJSON.AJAX( birdTowerFile, 
 
-    function onMapLoad(mapCenter, mapZoom, selectedTower) {  
+                {pointToLayer : function(geoJsonPoint, latlng) {
+                return L.marker(latlng);
+                },
+                onEachFeature: onEachFeature}     
+            );
+
+            bd.on('data:loaded', function () {
+                resolve(bd);
+            });
+    })
+    }
+
+    // var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, 
+
+    //      { pointToLayer : function(geoJsonPoint, latlng) {
+    //     return L.marker(latlng);
+    //     },
+    //     onEachFeature: onEachFeature}
+
+        
+    // );
+
+
+    function onMapLoad(mapCenter, mapZoom, selectedTower, birdTowers) {  
         console.log(selectedTower);
 
         if (typeof selectedTower !== 'undefined')  {
@@ -81,7 +103,7 @@
     var mapCenter = [67.55, 25.7];
     var mapZoom = 4;
 
-    const defaultLayers = [maastokartta, birdTowers];
+    const defaultLayers = [maastokartta];
 
   	const initMap = {
         crs: L.TileLayer.MML.get3067Proj(),
@@ -112,6 +134,10 @@
 				
 	function init() {
 
+        let birdTowers;
+
+        const towerPromise = getBirdTowers(birdTowerFile);
+
     	const baseMaps = { 
     		"Taustakartta" : taustakartta,
     		"Maastokartta" : maastokartta,
@@ -124,8 +150,6 @@
 
 
         map = new L.map('map_div', initMap);
-
-        map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id)); 
 
         map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit ');
 
@@ -154,7 +178,15 @@
         });
         mapResetButton.addTo(map);
 
-        birdTowers.addTo(map);
+        towerPromise.
+            then(function (birdTowers) {
+            console.log('meeme');
+            birdTowers.addTo(map);
+            map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id, birdTowers)); 
+        });    
+
+
+        // birdTowers.addTo(map);
 
         map.on('popupopen', function(e) {
             $(".btn-zoom-tower").click(function() {
