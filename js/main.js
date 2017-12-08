@@ -41,7 +41,7 @@
                 maxWidth : 'auto'
                 })
         if (feature.properties.id === selectedTower.id) {  
-            layer.bindTooltip ('lintutorni '+feature.properties.name ,{
+            layer.bindTooltip ('lintutorni '+ feature.properties.name ,{
                 permanent: true,
                 direction: 'auto',
                 interactive: false
@@ -106,6 +106,8 @@
             map.setView(mapCenter, mapZoom); 
             // console.log('huu' ,mapCenter, mapZoom); 
         }
+
+        map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit');
         };    
 
     const EPSG3067 = L.TileLayer.MML.get3067Proj();
@@ -158,10 +160,7 @@
     		"Lintutornit <span id='lintutornit'></span>" : birdTowers,
     	};
 
-
         map = new L.map('map_div', initMap);
-
-        map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit ');
 
         L.control.layers(baseMaps).addTo(map);
 
@@ -190,9 +189,12 @@
 
         towerPromise.
             then(function (birdTowers) {
-            birdTowers.addTo(map);
-            map.on('load', onMapLoad(mapCenter, mapZoom, selectedTower.id, birdTowers));
-            defaultLayers.push(birdTowers); 
+
+                birdTowers.addTo(map);
+            
+                map.on('load', onMapLoad(mapCenter, mapZoom, selectedTower.id, birdTowers));
+                defaultLayers.push(birdTowers);
+
         });    
 
 

@@ -7,8 +7,10 @@
 
       
 
-      #map_div {
-                width: 654px;
+      #map_div {  
+                width: -webkit-calc(100% - 2px);
+                width:    -moz-calc(100% - 2px);
+                width:         calc(100% - 2px);
                 height: 860px;
                 border: 1px solid black;
                 margin: 0px;
