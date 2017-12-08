@@ -171,7 +171,7 @@
         const mapResetButton = L.easyButton({
             states: [{
                     stateName: 'static',        // name the state
-                    icon:      'fa-expand',               // and define its properties
+                    icon:      'facustom-resize-full',              // and define its properties
                     title:     'Palauta kartta alkunäkymään',      // like its title
                     onClick: function(btn, map) {       // and its callback
                         map.setView(mapCenter, mapZoom);
