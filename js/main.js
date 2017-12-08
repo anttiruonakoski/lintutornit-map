@@ -1,11 +1,11 @@
 // main.js
 	
-    map = null;
+    var map;
 	var L;
     
     const birdTowerFile = 'data/lintutornit_lly_kaikki_2017_wgs84.geojson';
 
-    var selectedTower = {};
+    let selectedTower = {};
 
     if (location.href.includes('?') && location.href.includes('=')) {
          selectedTower.id = Number(location.href.split('=')[1]);
@@ -39,9 +39,9 @@
             layer.bindPopup('<b>' + feature.properties.name +'</b><br/><b>' + feature.properties.kunta +'</b><br/><a href="https://www.lly.fi/lintutornit#torni-' + 
                 feature.properties.id + '" target="_top">Tornin esittely</a>'+ '<button type="button" id="searchsubmit" class="btn-zoom-tower">Lähennä</button>', {
                 maxWidth : 'auto'
-                })
+                });
         if (feature.properties.id === selectedTower.id) {  
-            layer.bindTooltip ('lintutorni '+ feature.properties.name ,{
+            layer.bindTooltip ('lintutorni '+ feature.properties.name, {
                 permanent: true,
                 direction: 'auto',
                 interactive: false
@@ -57,7 +57,7 @@
     function getBirdTowers (birdTowerFile) {
         return new Promise(function (resolve, reject) {
 
-            var bd = new L.GeoJSON.AJAX( birdTowerFile, 
+            var bd = new L.GeoJSON.AJAX(birdTowerFile, 
 
                 {pointToLayer : function(geoJsonPoint, latlng) {
                 return L.marker(latlng);
@@ -68,7 +68,7 @@
             bd.on('data:loaded', function () {
                 resolve(bd);
             });
-    })
+    });
     }
 
     // var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, 
@@ -108,12 +108,12 @@
         }
 
         map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit');
-        };    
+        }    
 
     const EPSG3067 = L.TileLayer.MML.get3067Proj();
      
-    var mapCenter = [67.55, 25.7];
-    var mapZoom = 4;
+    let mapCenter = [67.55, 25.7];
+    let mapZoom = 4;
 
     const defaultLayers = [maastokartta];
 
@@ -168,7 +168,7 @@
         //     map.setView(mapCenter, mapZoom);
         // }).addTo(map);
 
-        var mapResetButton = L.easyButton({
+        const mapResetButton = L.easyButton({
             states: [{
                     stateName: 'static',        // name the state
                     icon:      'fa-expand',               // and define its properties
@@ -188,46 +188,28 @@
         mapResetButton.addTo(map);
 
         towerPromise.
+
             then(function (birdTowers) {
 
-                birdTowers.addTo(map);
-            
+                birdTowers.addTo(map);      
                 map.on('load', onMapLoad(mapCenter, mapZoom, selectedTower.id, birdTowers));
                 defaultLayers.push(birdTowers);
 
         });    
 
 
-        // birdTowers.addTo(map);
-
         map.on('popupopen', function(e) {
-            $(".btn-zoom-tower").click(function() {
+            document.querySelector(".btn-zoom-tower").addEventListener('click', function() {
                 var zoomLatLng = e.popup.getLatLng();
                 console.log(zoomLatLng);
 
                 // var popupSourceFeature = e.popup._source;
                 // var coords = getCoords(EPSG3067.project(popupSourceFeature._latlng).toString());
-
-
-                        //should really fix this, no logic here
-                        // map.removeLayer(sites);
                         
-                        zoomToTower(zoomLatLng,13);
-
-                        // map.once('moveend', function() {
-                        //     map.addLayer(sites);
-                        //     map.addLayer(ownsites);
-                        // });  
+                    zoomToTower(zoomLatLng, 13);
 
                 map.closePopup();
+
             });
         });
-
-        
-
-        // $("#btn-zoom-tower").click(function(){
-        //         console.log('zomiaian');
-        //         zoomToTower(12);
-        //     });
-
-    };
+    }
