@@ -40,10 +40,13 @@
                 feature.properties.id + '" target="_top">Tornin esittely</a>'+ '<button type="button" id="searchsubmit" class="btn-zoom-tower">Lähennä</button>', {
                 maxWidth : 'auto'
                 })
-            layer.bindTooltip (feature.properties.name ,{
-                permanent: false,
+        if (feature.properties.id === selectedTower.id) {  
+            layer.bindTooltip ('lintutorni '+feature.properties.name ,{
+                permanent: true,
                 direction: 'auto',
+                interactive: false
                 });
+        }   
     }
     }                   
 
@@ -89,15 +92,14 @@
                     mapCenter = (birdTowersAsJSON.features.find(item => item.properties.id == selectedTower).geometry.coordinates).reverse();
                 }
                 catch(e) {
-                    console.log('tornin id '+selectedTower+' linkissä mahdollisesti väärin');
+                    console.log('tornin id '+ selectedTower +' linkissä mahdollisesti väärin');
                 }
                 
-                mapZoom = 10;
+                mapZoom = 9;
+
                 // console.log('id on' ,mapCenter, mapZoom); 
                 map.setView(mapCenter, mapZoom);
-                //fix
-                // birdTowers.toggleTooltip();
-
+                
         }
         else {
             // map.setView(mapCenter, mapZoom);
@@ -188,9 +190,8 @@
 
         towerPromise.
             then(function (birdTowers) {
-            console.log('meeme');
             birdTowers.addTo(map);
-            map.on('load', onMapLoad(mapCenter,mapZoom,selectedTower.id, birdTowers));
+            map.on('load', onMapLoad(mapCenter, mapZoom, selectedTower.id, birdTowers));
             defaultLayers.push(birdTowers); 
         });    
 

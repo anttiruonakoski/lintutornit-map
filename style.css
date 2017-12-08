@@ -22,7 +22,7 @@
 
       button {
                 all: unset;
-      }           
+             }           
 
       .btn-zoom-tower {
                 background: #00A1E0;
@@ -36,4 +36,13 @@
                 margin-bottom: 7px;
                 margin-top: 14px;
                 padding: 8px 10px;
-}            
+      }    
+      a:hover {
+              color: #0C87D3;
+              text-decoration: underline;
+      }        
+      a {
+              outline: none;
+              color: #0B91EA;
+              text-decoration: none;
+      }
