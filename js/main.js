@@ -21,7 +21,8 @@
 
     ortokuva.options.minZoom = 8;
 
-    maastokartta.setOpacity(0.65);  
+    maastokartta.setOpacity(0.65);
+
     // const taustakartta_uusi = L.tileLayer.mml("Taustakartta_3067");
 
     const birdTowerMarkerOptions = {
@@ -31,7 +32,6 @@
     	color : 'dimgray',
         stroke: false
     };
-
 
     function onEachFeature(feature, layer) {
 
@@ -71,19 +71,8 @@
     });
     }
 
-    // var birdTowers = new L.GeoJSON.AJAX( birdTowerFile, 
-
-    //      { pointToLayer : function(geoJsonPoint, latlng) {
-    //     return L.marker(latlng);
-    //     },
-    //     onEachFeature: onEachFeature}
-
-        
-    // );
-
-
     function onMapLoad(mapCenter, mapZoom, selectedTower, birdTowers) {  
-        console.log(selectedTower);
+        console.log('tornin id '+ selectedTower);
 
         if (typeof selectedTower !== 'undefined' && selectedTower != 0)  {
                 birdTowersAsJSON = birdTowers.toGeoJSON();
@@ -97,17 +86,17 @@
                 
                 mapZoom = 9;
 
-                // console.log('id on' ,mapCenter, mapZoom); 
                 map.setView(mapCenter, mapZoom);
                 
         }
+
         else {
-            // map.setView(mapCenter, mapZoom);
+           
             map.setView(mapCenter, mapZoom); 
-            // console.log('huu' ,mapCenter, mapZoom); 
+         
         }
 
-        map.attributionControl.addAttribution(' taustakartta | © LLY, lintutornit');
+        map.attributionControl.addAttribution(' pohjakartat | © LLY, lintutornit');
         }    
 
     const EPSG3067 = L.TileLayer.MML.get3067Proj();
@@ -185,6 +174,7 @@
                     }                         
                     }]
         });
+
         mapResetButton.addTo(map);
 
         towerPromise.
