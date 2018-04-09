@@ -36,7 +36,7 @@
     function onEachFeature(feature, layer) {
 
         if (feature.properties && feature.properties.name) {
-            layer.bindPopup('<b>' + feature.properties.name +'</b><br/><b>' + feature.properties.kunta +'</b><br/><a href="https://www.lly.fi/lintutornit#torni-' + 
+            layer.bindPopup('<b>' + feature.properties.name +'</b><br/><b>' + feature.properties.kunta +'</b><br/><a href="https://www.lly.fi/lintutornit/#torni-' + 
                 feature.properties.id + '" target="_top">Tornin esittely</a>'+ '<button type="button" id="searchsubmit" class="btn-zoom-tower">Lähennä</button>', {
                 maxWidth : 'auto'
                 });
