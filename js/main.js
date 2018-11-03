@@ -3,7 +3,7 @@
     var map;
 	var L;
     
-    const birdTowerFile = 'data/lintutornit_lly_kaikki_2017_wgs84.geojson';
+    const birdTowerFile = 'data/lintutornit_lly_kaikki_2018_wgs84.geojson';
 
     let selectedTower = {};
 
