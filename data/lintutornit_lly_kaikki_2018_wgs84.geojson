@@ -65,7 +65,7 @@
 { "type": "Feature", "properties": { "id": 61, "name": "Vähä Meltosjärvi, Pitkäperä", "kunta": "Ylitornio", "koord_ykj_p": 7383859, "koord_ykj_e": 3395442 }, "geometry": { "type": "Point", "coordinates": [ 24.644134258088414, 66.528297526772377 ] } },
 { "type": "Feature", "properties": { "id": 62, "name": "Portimojärvi", "kunta": "Ylitornio", "koord_ykj_p": 7369165, "koord_ykj_e": 3362218 }, "geometry": { "type": "Point", "coordinates": [ 23.914255102262004, 66.383710024867142 ] } },
 { "type": "Feature", "properties": { "id": 65, "name": "Tiironlampi", "kunta": "Posio", "koord_ykj_p": 7341587, "koord_ykj_e": 3550684 }, "geometry": { "type": "Point", "coordinates": [ 28.119674241708012, 66.162888481740751 ] } },
-{ "type": "Feature", "properties": { "id": 66, "name": "Molkojärvi, Naskama", "kunta": "Kittilä", "koord_ykj_p": 7465460, "koord_ykj_e": 3423475 }, "geometry": { "type": "Point", "coordinates": [ 25.221910343172652, 67.267879868420096 ] } },
-{ "type": "Feature", "properties": { "id": 67, "name": "Pasmajärvi", "kunta": "Kolari", "koord_ykj_p": 7451006, "koord_ykj_e": 3382955 }, "geometry": { "type": "Point", "coordinates": [ 24.298155584139987, 67.125280681290732 ] } }
+{ "type": "Feature", "properties": { "id": 66, "name": "Naskama", "kunta": "Kittilä", "koord_ykj_p": 7465460, "koord_ykj_e": 3423475 }, "geometry": { "type": "Point", "coordinates": [ 25.221910343172652, 67.267879868420096 ] } },
+{ "type": "Feature", "properties": { "id": 67, "name": "Siikavuoma", "kunta": "Kolari", "koord_ykj_p": 7451006, "koord_ykj_e": 3382955 }, "geometry": { "type": "Point", "coordinates": [ 24.298155584139987, 67.125280681290732 ] } }
 ]
 }
